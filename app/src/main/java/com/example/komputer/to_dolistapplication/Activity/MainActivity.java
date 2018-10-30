@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import com.example.komputer.to_dolistapplication.Adapter.RecyclerAdapter;
 import com.example.komputer.to_dolistapplication.Helper.NotificationHelper;
 import com.example.komputer.to_dolistapplication.Model.TaskClass;
@@ -46,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
     List<TaskClass> listTasks;
+    List selectedTask = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("mySP", Context.MODE_PRIVATE);
         boolean firstStart = sharedPreferences.getBoolean("firstStart", true);
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.list_tasks);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mAdapter = new RecyclerAdapter(listTasks);
+        mAdapter = new RecyclerAdapter(listTasks, selectedTask, this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -124,13 +127,17 @@ public class MainActivity extends AppCompatActivity {
     private void deleteAllItems(){
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle("Delete all tasks")
+        alertDialogBuilder.setTitle("Delete all selected tasks")
                 .setMessage("Are you sure?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        listTasks.clear();
-                        mAdapter.notifyDataSetChanged(); //let your adapter know about the changes and reload view
+
+                        for(int i=0; i<selectedTask.size(); i++){
+                            listTasks.remove(selectedTask.get(i));
+                        }
+                        selectedTask.clear();
+                        mAdapter.notifyDataSetChanged();
                         saveData();
                     }
                 })
@@ -145,9 +152,10 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void checkListBeforeClear(){
-        if(listTasks.size() == 0){
-            Toast.makeText(context, "To-do list is empty. Add tasks", Toast.LENGTH_SHORT).show();
+    private void checkListBeforeClear(List selectedTask){
+
+        if(selectedTask.size() <= 0){
+            Toast.makeText(context, "Select done tasks", Toast.LENGTH_SHORT).show();
         }else{
             deleteAllItems();
         }
@@ -210,8 +218,8 @@ public class MainActivity extends AppCompatActivity {
     private void registerNotification(){
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
-        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 21);
         calendar.set(Calendar.SECOND, 0);
 
         Intent intent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
@@ -219,8 +227,8 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(),
-                60 * 60 * 24 + (new Random().nextInt((7200 - 600)+ 1 + 600)),
-                //,AlarmManager.INTERVAL_DAY
+                //60 * 60 * 24 * 1000 + (new Random().nextInt((60 * 60 * 2 * 1000 - 60 * 10 * 1000)+ 1 + 60 * 10 * 1000)),
+                AlarmManager.INTERVAL_DAY,
                 pendingIntent);
 
 
@@ -256,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                 addItemDialog();
                 break;
             case R.id.delete_item:
-                checkListBeforeClear();
+                checkListBeforeClear(selectedTask);
                 break;
             default:
                 break;

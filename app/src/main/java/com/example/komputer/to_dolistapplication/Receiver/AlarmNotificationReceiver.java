@@ -26,19 +26,19 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
             sendNotification(context, getNotificationText());
         }
 
-
     }
 
 
 
     public static String getNotificationText(){
 
-        String[] textArray = {"Don't forget about today's tasks :)", "Did you do today's tasks?", "I hope you done your tasks"};
+        String[] textArray = {"Don't forget about today's tasks", "Did you do today's tasks?", "I hope you done your tasks"};
         int randomText = new Random().nextInt(textArray.length);
         String text = (textArray[randomText]);
 
         return text;
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendNotificationAPI26(Context context, String message) {
@@ -54,6 +54,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
 
         notificationHelper.getNotificationManager().notify(new Random().nextInt(), notificationBuilder.build());
     }
+
 
     private void sendNotification(Context context, String message) {
 

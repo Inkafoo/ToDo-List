@@ -23,13 +23,12 @@ public class NotificationHelper extends ContextWrapper {
     public NotificationHelper(Context base) {
         super(base);
 
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel();
         }
 
-
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void createChannel() {
@@ -45,6 +44,7 @@ public class NotificationHelper extends ContextWrapper {
         notificationChannel.enableVibration(true);
     }
 
+
     public NotificationManager getNotificationManager() {
         if(notificationManager == null){
             notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -52,6 +52,7 @@ public class NotificationHelper extends ContextWrapper {
 
         return notificationManager;
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Notification.Builder getNotification(PendingIntent pendingIntent, String message){
@@ -63,4 +64,5 @@ public class NotificationHelper extends ContextWrapper {
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
     }
+
 }

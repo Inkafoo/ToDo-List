@@ -58,27 +58,31 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder>{
     }
 
 
+
     @Override
     public void onBindViewHolder(@NonNull final  RecyclerViewHolder recyclerViewHolder, final int i) {
 
             final TaskClass myTask = taskList.get(i);
 
-
             recyclerViewHolder.taskName.setText(myTask.getTask());
 
-            recyclerViewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+
+            recyclerViewHolder.deleteBtn.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
+                public boolean onLongClick(View v) {
                     deleteItem(i, myTask);
+                    return true;
                 }
             });
 
 
 
             if(!myTask.isSelected()){
-                recyclerViewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.lightGreen));
+                //recyclerViewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.lightGreen));
+                recyclerViewHolder.itemView.setBackgroundResource(R.xml.item_border_red);
             }else{
-                recyclerViewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.lightRed));
+                //recyclerViewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.lightRed));
+                recyclerViewHolder.itemView.setBackgroundResource(R.xml.item_border_green);
             }
 
 
@@ -97,8 +101,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder>{
     private void addTaskToSelected(TaskClass myTask, RecyclerViewHolder recyclerViewHolder){
 
         myTask.setSelected(!myTask.isSelected());
-        recyclerViewHolder.itemView.setBackgroundColor(myTask.isSelected() ? ContextCompat.getColor(context, R.color.lightRed) :
-                                                                             ContextCompat.getColor(context, R.color.lightGreen));
+       //recyclerViewHolder.itemView.setBackgroundColor(myTask.isSelected() ? ContextCompat.getColor(context, R.color.lightRed) :
+       //                                                                     ContextCompat.getColor(context, R.color.lightGreen));
+        recyclerViewHolder.itemView.setBackgroundResource(myTask.isSelected() ? R.xml.item_border_green : R.xml.item_border_red);
+
         if(myTask.isSelected()){
             selectedTask.add(myTask);
         }else{

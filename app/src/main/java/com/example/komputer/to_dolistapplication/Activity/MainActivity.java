@@ -23,7 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import com.example.komputer.to_dolistapplication.Adapter.RecyclerAdapter;
 import com.example.komputer.to_dolistapplication.Helper.NotificationHelper;
 import com.example.komputer.to_dolistapplication.Model.TaskClass;
@@ -38,11 +37,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import es.dmoral.toasty.Toasty;
+
 public class MainActivity extends AppCompatActivity {
 
 
     MainActivity context = this;
-    private static String FILENAME = "listTask";
+    public static String FILENAME = "listTask";
+    public static String SPKEY = "list task";
 
     RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+
     private void addItemDialog(){
 
         //BUILD DIALOG
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 final String nameTaskString = editText.getText().toString();
 
                 if(editText.getText().toString().isEmpty()){
-                    Toast.makeText(context, "Enter the task", Toast.LENGTH_SHORT).show();
+                    Toasty.info(context, "Enter the task", Toast.LENGTH_SHORT).show();
                 }else{
                     addTask(nameTaskString);
                     alertDialog.dismiss();
@@ -113,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     private void addTask(String task){
 
@@ -123,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         //sendNotification();
         saveData();
     }
+
 
     private void deleteAllItems(){
 
@@ -152,20 +157,23 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+
     private void checkListBeforeClear(List selectedTask){
 
         if(selectedTask.size() <= 0){
-            Toast.makeText(context, "Select done tasks", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, "Select done tasks", Toast.LENGTH_SHORT).show();
         }else{
             deleteAllItems();
+            saveData();
         }
     }
+
 
     private void loadData(){
 
         SharedPreferences sharedPreferences = getSharedPreferences(FILENAME, MODE_PRIVATE);
         Gson gson = new Gson();
-        String mJson = sharedPreferences.getString("list task", null);
+        String mJson = sharedPreferences.getString(SPKEY, null);
         Type type = new TypeToken<ArrayList<TaskClass>>() {}.getType();
         listTasks = gson.fromJson(mJson, type);
 
@@ -174,15 +182,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void saveData(){
 
         SharedPreferences sharedPreferences = getSharedPreferences(FILENAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String mJson = gson.toJson(listTasks);
-        editor.putString("list task", mJson);
+        editor.putString(SPKEY, mJson);
         editor.apply();
     }
+
 
     private void sendNotification(){
 
@@ -215,11 +225,12 @@ public class MainActivity extends AppCompatActivity {
       }
     }
 
+
     private void registerNotification(){
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 21);
-        calendar.set(Calendar.MINUTE, 21);
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        calendar.set(Calendar.MINUTE, 12);
         calendar.set(Calendar.SECOND, 0);
 
         Intent intent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
@@ -241,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -249,13 +261,14 @@ public class MainActivity extends AppCompatActivity {
         Drawable deleteIcon = menu.getItem(0).getIcon();
 
         addIcon.mutate();
-        addIcon.setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
+        addIcon.setColorFilter(getResources().getColor(R.color.iconGreen), PorterDuff.Mode.SRC_IN);
 
         deleteIcon.mutate();
-        deleteIcon.setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_IN);
+        deleteIcon.setColorFilter(getResources().getColor(R.color.iconRed), PorterDuff.Mode.SRC_IN);
 
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

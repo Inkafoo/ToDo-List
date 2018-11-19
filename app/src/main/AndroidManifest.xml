@@ -17,14 +17,28 @@
             </intent-filter>
         </activity>
 
-            <receiver android:name=".Receiver.AlarmNotificationReceiver">
-                <intent-filter>
-                    <action android:name="android.media.action.DISPLAY_NOTIFICATION"></action>
+        <receiver android:name=".Receiver.AlarmNotificationReceiver">
+            <intent-filter>
+                <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
 
-                    <category android:name="android.intent.category.DEFAULT"></category>
-                </intent-filter>
-            </receiver>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".Helper.AppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_info" />
+        </receiver>
+
+        <activity android:name=".Activity.AppWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

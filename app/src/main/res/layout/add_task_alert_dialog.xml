@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="20dp"
+    android:background="@color/backgroundApp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,19 +14,23 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:gravity="center"
-        android:textColor="#000"
+        android:textColor="@color/colorWhite"
         android:text="Add new task" />
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="13dp"
-        android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
-        android:inputType="" />
+        android:inputType=""
+        android:textColor="#fff"
+        android:selectAllOnFocus="false"
+        android:singleLine="false"
+       />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
+            android:background="@color/colorWhite"
             android:layout_marginLeft="20dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true" />
@@ -46,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"
+            android:background="@color/colorWhite"
             android:layout_marginRight="20dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true" />

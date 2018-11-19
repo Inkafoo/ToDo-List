@@ -4,10 +4,13 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="green">#33ff40</color>
-    <color name="red">#ff0314</color>
+    <color name="iconGreen">#00ff0c</color>
+    <color name="iconRed">#ff0009</color>
 
     <color name="lightGreen">#86d48b</color>
     <color name="lightRed">#c77277</color>
+
+    <color name="backgroundApp">#3c4040</color>
+    <color name="colorWhite">#fff</color>
 
 </resources>

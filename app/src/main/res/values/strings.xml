@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">To-Do List Application</string>
     <string name="notification_title">To-Do List</string>
+    <string name="appwidget_text">ADD YOUR TASK</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
 </resources>
